@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <style>
         :root { --primary: #0ea5e9; --success: #10b981; --warning: #f59e0b; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
@@ -82,7 +82,7 @@
         <div class="nav-item" onclick="switchPage('profile', this)"><i data-lucide="user"></i><span>Profil</span></div>
     </nav>
 
-    <script type="module" src="../js/driver.js"></script>
+    <script type="module" src="driver.js"></script>
     <script>
         window.switchPage = (pageId, el) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
