@@ -19,69 +19,69 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- LOGIN ---
-window.handleAuthLogin = async (role) => {
+const COLLECTION = "drivers";
+const TARGET_PAGE = "index.html";
+
+
+// ===== LOGIN DRIVER =====
+window.driverLogin = async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const collectionName = role === 'drivers';
-    const targetPage = role === 'index.html';
 
-    if(!email || !password) return Swal.fire("Info", "Email dan password wajib diisi", "info");
+    if (!email || !password)
+        return Swal.fire("Info", "Email & password wajib diisi", "info");
 
-    Swal.fire({ title: 'Memverifikasi...', didOpen: () => Swal.showLoading() });
+    Swal.fire({ title: "Memverifikasi...", didOpen: () => Swal.showLoading() });
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid;
 
-        // Validasi Role di Firestore
-        const userSnap = await getDoc(doc(db, collectionName, uid));
-        
-        if (userSnap.exists()) {
-            Swal.fire("Berhasil", "Selamat Datang!", "success").then(() => {
-                window.location.replace(targetPage);
-            });
-        } else {
+        const snap = await getDoc(doc(db, COLLECTION, uid));
+
+        if (!snap.exists()) {
             await signOut(auth);
-            Swal.fire("Akses Ditolak", `Akun Anda tidak terdaftar sebagai ${role.toUpperCase()}`, "error");
+            return Swal.fire("Akses Ditolak", "Akun bukan DRIVER", "error");
         }
+
+        Swal.fire("Berhasil", "Selamat datang Driver!", "success")
+            .then(() => window.location.replace(TARGET_PAGE));
+
     } catch (err) {
-        Swal.fire("Gagal", "Email atau Password salah", "error");
+        Swal.fire("Gagal", "Email atau password salah", "error");
     }
 };
 
-// --- REGISTER ---
-window.handleAuthSignup = async (role) => {
+
+// ===== REGISTER DRIVER =====
+window.driverSignup = async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    
-    const driverName = document.getElementById("driverName") ? document.getElementById("driverName").value : "";
-    const collectionName = role === "drivers";
+    const driverName = document.getElementById("driverName").value;
 
-    if(!email || !password) return Swal.fire("Info", "Email & Password wajib diisi", "info");
+    if (!email || !password || !driverName)
+        return Swal.fire("Info", "Semua field wajib diisi", "info");
 
-    Swal.fire({ title: 'Mendaftarkan...', didOpen: () => Swal.showLoading() });
+    Swal.fire({ title: "Mendaftarkan...", didOpen: () => Swal.showLoading() });
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid;
 
-        const userData = {
-            uid: uid,
-            email: email,
-            role: role,
+        const data = {
+            uid,
+            email,
+            role: "driver",
+            driverName,
             balance: 0,
             createdAt: new Date().toISOString()
         };
 
-        
-        if (role === 'driver') userData.driverName = driverName;
+        await setDoc(doc(db, COLLECTION, uid), data);
 
-        await setDoc(doc(db, collectionName, uid), userData);
+        Swal.fire("Berhasil", "Akun driver dibuat!", "success")
+            .then(() => location.reload());
 
-        Swal.fire("Berhasil", "Akun dibuat, silakan login", "success").then(() => {
-            location.reload();
-        });
     } catch (err) {
         Swal.fire("Gagal Daftar", err.message, "error");
     }
