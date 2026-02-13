@@ -32,7 +32,11 @@
             <input type="password" id="password" placeholder="••••••••" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; box-sizing: border-box; margin-top: 5px;">
         </div>
 
-        <button id="mainBtn" onclick="handleAuthLogin('driver')" style="width: 100%; background: #db2777; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; margin-bottom: 15px;">Masuk Kerja</button>
+        <button id="mainBtn"
+  onclick="driverLogin()"
+  style="width: 100%; background: #db2777; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; margin-bottom: 15px;">
+  Masuk Kerja
+</button>
         
         <button id="toggleBtn" onclick="toggleView()" style="width: 100%; background: none; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; cursor: pointer; color: #64748b; font-size: 14px; font-weight: 600;">Belum punya akun? Daftar</button>
         
@@ -64,5 +68,6 @@
             }
         }
     </script>
+    <script type="module" src="auth-driver.js"></script>
 </body>
 </html>
