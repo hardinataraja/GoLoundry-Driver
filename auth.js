@@ -23,8 +23,8 @@ const db = getFirestore(app);
 window.handleAuthLogin = async (role) => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const collectionName = role === "drivers";
-    const targetPage = role === 'index.html";
+    const collectionName = role === 'drivers';
+    const targetPage = role === 'index.html';
 
     if(!email || !password) return Swal.fire("Info", "Email dan password wajib diisi", "info");
 
