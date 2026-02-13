@@ -23,8 +23,8 @@ const db = getFirestore(app);
 window.handleAuthLogin = async (role) => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const collectionName = role === 'owner' ? "laundries" : "drivers";
-    const targetPage = role === 'owner' ? "../owner/index.html" : "../driver/driver.html";
+    const collectionName = role === "drivers";
+    const targetPage = role === 'index.html";
 
     if(!email || !password) return Swal.fire("Info", "Email dan password wajib diisi", "info");
 
@@ -54,9 +54,9 @@ window.handleAuthLogin = async (role) => {
 window.handleAuthSignup = async (role) => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const laundryName = document.getElementById("laundryName") ? document.getElementById("laundryName").value : "";
+    
     const driverName = document.getElementById("driverName") ? document.getElementById("driverName").value : "";
-    const collectionName = role === 'owner' ? "laundries" : "drivers";
+    const collectionName = role === "drivers";
 
     if(!email || !password) return Swal.fire("Info", "Email & Password wajib diisi", "info");
 
@@ -74,7 +74,7 @@ window.handleAuthSignup = async (role) => {
             createdAt: new Date().toISOString()
         };
 
-        if (role === 'owner') userData.laundryName = laundryName;
+        
         if (role === 'driver') userData.driverName = driverName;
 
         await setDoc(doc(db, collectionName, uid), userData);
